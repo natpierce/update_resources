@@ -1,0 +1,36 @@
+{
+  "latestVersionName": "v1.06",
+  "changelog": "发布v1.06的包",
+  "endpoints": {
+    "github": {
+      "linux": {
+        "amd64": "https://github.com/natpierce/update_resources/releases/download/v1.06/natpierce-amd64-v1.06.tar.gz",
+        "arm32": "https://github.com/natpierce/update_resources/releases/download/v1.06/natpierce-arm32-v1.06.tar.gz",
+        "arm64": "https://github.com/natpierce/update_resources/releases/download/v1.06/natpierce-arm64-v1.06.tar.gz",
+        "mips": "https://github.com/natpierce/update_resources/releases/download/v1.06/natpierce-mips-v1.06.tar.gz",
+        "mipsel": "https://github.com/natpierce/update_resources/releases/download/v1.06/natpierce-mipsel-v1.06.tar.gz"
+      },
+      "windows": {
+        "universal": "https://github.com/natpierce/update_resources/releases/download/v1.06/natpierce-win-v1.06.zip"
+      },
+      "android": {
+        "universal": "https://github.com/natpierce/update_resources/releases/download/v1.06/natpierce-v1.06.apk"
+      }
+    },
+    "gitee": {
+      "linux": {
+        "amd64": "https://gitee.com/natpierce/update_resources/releases/download/v1.06/natpierce-amd64-v1.06.tar.gz",
+        "arm64": "https://gitee.com/natpierce/update_resources/releases/download/v1.06/natpierce-arm64-v1.06.tar.gz",
+        "arm32": "https://gitee.com/natpierce/update_resources/releases/download/v1.06/natpierce-arm32-v1.06.tar.gz",
+        "mipsel": "https://gitee.com/natpierce/update_resources/releases/download/v1.06/natpierce-mipsel-v1.06.tar.gz",
+        "mips": "https://gitee.com/natpierce/update_resources/releases/download/v1.06/natpierce-mips-v1.06.tar.gz"
+      },
+      "windows": {
+        "universal": "https://gitee.com/natpierce/update_resources/releases/download/v1.06/natpierce-win-v1.06.zip"
+      },
+      "android": {
+        "universal": "https://gitee.com/natpierce/update_resources/releases/download/v1.06/natpierce-v1.06.apk"
+      }
+    }
+  }
+}
