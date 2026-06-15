@@ -1,0 +1,64 @@
+name: 手动同步 GitHub Release 到 Gitee
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: '请输入要同步的 GitHub Tag 名称 (例如: v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  sync-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v4
+
+      - name: 获取 GitHub Release 信息与下载附件
+        id: get_gh_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag_name }}
+        run: |
+          echo "正在获取 Tag 为 ${TAG} 的 GitHub Release 信息..."
+          RELEASE_JSON=$(gh api repos/${{ github.repository }}/releases/tags/${TAG})
+          
+          R_NAME=$(echo "$RELEASE_JSON" | jq -r '.name')
+          R_BODY=$(echo "$RELEASE_JSON" | jq -r '.body')
+          
+          echo "release_name=$R_NAME" >> $GITHUB_ENV
+          echo "release_body<<EOF" >> $GITHUB_ENV
+          echo "$R_BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+          mkdir -p ./downloads
+          echo "开始下载 GitHub Release 附件..."
+          gh release download ${TAG} --dir ./downloads --pattern "*"
+
+      - name: 如果 Gitee 已存在旧 Release 则先删除
+        uses: nICEnnnnnnnLee/action-gitee-release@v2.0.0
+        continue-on-error: true
+        with:
+          gitee_action: delete_release
+          gitee_owner: 'natpierce'
+          gitee_repo: 'update_resources'
+          gitee_token: ${{ secrets.GITEE_TOKEN }}
+          gitee_tag_name: ${{ inputs.tag_name }}
+
+      - name: 创建 Gitee Release 并同步附件
+        uses: nICEnnnnnnnLee/action-gitee-release@v2.0.0
+        with:
+          gitee_action: create_release
+          gitee_owner: 'natpierce'
+          gitee_repo: 'update_resources'        
+          gitee_token: ${{ secrets.GITEE_TOKEN }} 
+          
+          gitee_tag_name: ${{ inputs.tag_name }}
+          gitee_release_name: ${{ env.release_name }}
+          gitee_release_body: ${{ env.release_body }}
+          gitee_target_commitish: 'mian'
+          
+          gitee_upload_retry_times: 3
+          gitee_files: |
+            ./downloads/*
